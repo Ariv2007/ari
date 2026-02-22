@@ -45,9 +45,9 @@ export default function AboutPage() {
                 </div>
               </div>
               <h3 className="font-heading text-2xl mb-4 text-secondary">Location</h3>
-              <p className="font-paragraph text-foreground text-lg">
+              <a href="https://maps.app.goo.gl/zDQpuBboyRVC1Tb5A?g_st=aw" target="_blank" rel="noopener noreferrer" className="font-paragraph text-foreground text-lg hover:text-accent-gold transition-colors">
                 Tenkasi
-              </p>
+              </a>
             </div>
 
             <div className="text-center">
