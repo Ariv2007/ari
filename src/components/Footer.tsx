@@ -50,10 +50,10 @@ export default function Footer() {
                 <Mail className="w-5 h-5 mt-0.5 flex-shrink-0" />
                 <span className="font-paragraph text-sm break-all">aarthidigitaltsi@gmail.com</span>
               </a>
-              <div className="flex items-start gap-3 text-secondary-foreground/80">
+              <a href="https://maps.app.goo.gl/zDQpuBboyRVC1Tb5A?g_st=aw" target="_blank" rel="noopener noreferrer" className="flex items-start gap-3 text-secondary-foreground/80 hover:text-accent-gold transition-colors duration-300">
                 <MapPin className="w-5 h-5 mt-0.5 flex-shrink-0" />
                 <span className="font-paragraph text-sm">Tenkasi, Tamil Nadu</span>
-              </div>
+              </a>
             </div>
           </div>
 
