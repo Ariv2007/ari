@@ -120,6 +120,46 @@ export default function AboutPage() {
           </div>
         </section>
 
+        {/* Owner Section */}
+        <section className="w-full max-w-[100rem] mx-auto px-6 py-20 bg-white">
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-12 items-center">
+            <div className="rounded-lg overflow-hidden h-96 md:h-full">
+              <Image
+                src="https://static.wixstatic.com/media/c3a651_aecf7849909b4998a31dc6d4db135923~mv2.jpg"
+                alt="Studio Owner - Professional Photographer"
+                width={500}
+                height={600}
+                className="w-full h-full object-cover"
+              />
+            </div>
+            <div>
+              <h2 className="font-heading text-5xl md:text-6xl mb-6 text-secondary">
+                Meet the Owner
+              </h2>
+              <p className="font-paragraph text-lg text-foreground mb-6 leading-relaxed">
+                With years of experience in photography and videography, our owner brings passion and expertise to every project. Equipped with state-of-the-art technology and a keen eye for detail, we capture moments that matter.
+              </p>
+              <p className="font-paragraph text-lg text-foreground mb-6 leading-relaxed">
+                Our commitment to excellence and customer satisfaction has made AARTHI STUDIO & VEDIO a trusted name in professional visual content creation. We believe in building lasting relationships with our clients through quality work and exceptional service.
+              </p>
+              <div className="space-y-4">
+                <div className="flex items-start gap-4">
+                  <div className="w-2 h-2 bg-accent-gold rounded-full mt-3 flex-shrink-0"></div>
+                  <span className="font-paragraph text-foreground">Specialized in wedding and event photography</span>
+                </div>
+                <div className="flex items-start gap-4">
+                  <div className="w-2 h-2 bg-accent-gold rounded-full mt-3 flex-shrink-0"></div>
+                  <span className="font-paragraph text-foreground">Expert in commercial and corporate videography</span>
+                </div>
+                <div className="flex items-start gap-4">
+                  <div className="w-2 h-2 bg-accent-gold rounded-full mt-3 flex-shrink-0"></div>
+                  <span className="font-paragraph text-foreground">Dedicated to capturing authentic moments</span>
+                </div>
+              </div>
+            </div>
+          </div>
+        </section>
+
         {/* CTA Section */}
         <section className="w-full max-w-[100rem] mx-auto px-6 py-20 text-center">
           <h2 className="font-heading text-5xl md:text-6xl mb-6 text-secondary">
