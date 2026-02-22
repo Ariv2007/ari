@@ -232,7 +232,7 @@ export default function HomePage() {
               </p>
               <div className="grid grid-cols-2 gap-8 pt-8 border-t border-foreground/10">
                 <div>
-                  <h4 className="font-heading text-3xl text-foreground mb-2">10+</h4>
+                  <h4 className="font-heading text-3xl text-foreground mb-2">20+</h4>
                   <p className="text-sm text-foreground/60">Years Experience</p>
                 </div>
                 <div>
