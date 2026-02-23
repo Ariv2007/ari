@@ -116,9 +116,7 @@ export default function HomePage() {
         className="fixed top-0 left-0 right-0 h-1 bg-accent-gold origin-left z-50"
         style={{ scaleX }}
       />
-
       <Header />
-
       {/* --- HERO SECTION: The Cinematic Opening --- */}
       <section className="relative w-full min-h-screen flex flex-col justify-center items-center overflow-hidden pt-20">
         {/* Background Parallax Layer */}
@@ -140,7 +138,7 @@ export default function HomePage() {
             transition={{ duration: 1, delay: 0.2 }}
             className="mb-6"
           >
-            <span className="inline-block py-2 px-6 rounded-full border border-white/30 bg-white/10 backdrop-blur-md text-white font-paragraph text-xs md:text-sm tracking-widest uppercase">
+            <span className="inline-block py-2 px-6 rounded-full border border-white/30 bg-white/10 backdrop-blur-md text-white text-xs md:text-sm tracking-widest uppercase font-sail">
               Aarthi Studio & Vedio • Tenkasi
             </span>
           </motion.div>
@@ -196,7 +194,6 @@ export default function HomePage() {
           <div className="w-px h-12 bg-gradient-to-b from-white/50 to-transparent" />
         </motion.div>
       </section>
-
       {/* --- MARQUEE SECTION: Dynamic Flow --- */}
       <div className="w-full bg-foreground py-6 overflow-hidden border-y border-white/10">
         <motion.div
@@ -206,7 +203,7 @@ export default function HomePage() {
         >
           {[...Array(4)].map((_, i) => (
             <div key={i} className="flex items-center gap-12 px-6">
-              <span className="text-white/20 font-heading text-4xl md:text-5xl">WEDDING PHOTOGRAPHY</span>
+              <span className="text-4xl md:text-5xl text-center text-[#FFFFFF54] font-dancing-script font-normal no-underline italic">WEDDING PHOTOGRAPHY</span>
               <Star className="w-6 h-6 text-accent-gold/40" />
               <span className="text-white/20 font-heading text-4xl md:text-5xl">CINEMATIC VIDEO</span>
               <Star className="w-6 h-6 text-accent-gold/40" />
@@ -216,7 +213,6 @@ export default function HomePage() {
           ))}
         </motion.div>
       </div>
-
       {/* --- PHILOSOPHY SECTION: Editorial Layout --- */}
       <section className="w-full py-32 px-6 md:px-12 bg-background">
         <div className="max-w-[100rem] mx-auto grid grid-cols-1 lg:grid-cols-12 gap-16 items-start">
@@ -258,7 +254,6 @@ export default function HomePage() {
           </div>
         </div>
       </section>
-
       {/* --- SERVICES SECTION: Sticky Sidebar & Parallax List --- */}
       <section className="w-full py-32 bg-white relative" id="services">
         <div className="max-w-[120rem] mx-auto px-6 md:px-12">
@@ -348,7 +343,6 @@ export default function HomePage() {
           </div>
         </div>
       </section>
-
       {/* --- GIFTS SECTION: Grid Layout --- */}
       <section className="w-full py-32 bg-background border-t border-foreground/5">
         <div className="max-w-[120rem] mx-auto px-6 md:px-12">
@@ -393,7 +387,6 @@ export default function HomePage() {
           </div>
         </div>
       </section>
-
       {/* --- CTA SECTION: Atmospheric --- */}
       <section className="relative w-full py-40 overflow-hidden flex items-center justify-center">
         <div className="absolute inset-0 z-0">
@@ -429,7 +422,6 @@ export default function HomePage() {
           </motion.div>
         </div>
       </section>
-
       <Footer />
     </div>
   );

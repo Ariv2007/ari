@@ -20,7 +20,10 @@ export default {
             },
             fontFamily: {
                 heading: ["avenir-lt-w01_85-heavy1475544"],
-                paragraph: ["baskervillemtw01-smbdit"]
+                paragraph: ["baskervillemtw01-smbdit"],
+                sail: ["sail", "serif"],
+                "dancing-script": ["dancing script", "cursive"],
+                "wixmadefordisplayapp-extrabold": ["wixmadefordisplayapp-extrabold", "sans-serif"]
             },
             colors: {
                 "accent-gold": "#DF3131",
