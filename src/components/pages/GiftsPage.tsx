@@ -1,36 +1,55 @@
 import { motion } from 'framer-motion';
-import { Gift, Frame, Coffee, Home, Lightbulb, Upload, Heart } from 'lucide-react';
+import { Gift, Frame, Coffee, Home, Lightbulb, Upload, Heart, ArrowRight } from 'lucide-react';
 import Header from '@/components/Header';
 import Footer from '@/components/Footer';
-import { Link } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
+import { Image } from '@/components/ui/image';
 
 export default function GiftsPage() {
+  const navigate = useNavigate();
+
   const gifts = [
     {
+      id: 'photo-frames',
       icon: Frame,
       name: 'Photo Frames',
       description: 'Elegant frames crafted to showcase your precious memories. Available in various sizes and premium finishes.',
-      features: ['Premium quality materials', 'Multiple size options', 'Custom designs available', 'Perfect for home decor']
+      features: ['Premium quality materials', 'Multiple size options', 'Custom designs available', 'Perfect for home decor'],
+      sizes: ['4x6 inches', '5x7 inches', '8x10 inches', '11x14 inches'],
+      image: 'https://static.wixstatic.com/media/c3a651_74d71ec0b7094366926ef0d2c9c96b0e~mv2.png'
     },
     {
+      id: 'magic-mug',
       icon: Coffee,
       name: 'Magic Mug',
       description: 'Heat-reveal photo mugs that surprise and delight. Watch your photo appear as you pour hot beverages.',
-      features: ['Heat-activated reveal', 'High-quality ceramic', 'Dishwasher safe', 'Perfect gift for loved ones']
+      features: ['Heat-activated reveal', 'High-quality ceramic', 'Dishwasher safe', 'Perfect gift for loved ones'],
+      sizes: ['11 oz', '15 oz'],
+      image: 'https://static.wixstatic.com/media/c3a651_74d71ec0b7094366926ef0d2c9c96b0e~mv2.png'
     },
     {
+      id: 'printed-pillow',
       icon: Home,
       name: 'Printed Pillow',
       description: 'Comfortable pillows featuring your favorite photos. Soft, durable, and machine washable.',
-      features: ['Soft premium fabric', 'Vibrant photo printing', 'Machine washable', 'Multiple sizes available']
+      features: ['Soft premium fabric', 'Vibrant photo printing', 'Machine washable', 'Multiple sizes available'],
+      sizes: ['16x16 inches', '18x18 inches', '20x20 inches'],
+      image: 'https://static.wixstatic.com/media/c3a651_74d71ec0b7094366926ef0d2c9c96b0e~mv2.png'
     },
     {
+      id: 'led-photo-frame',
       icon: Lightbulb,
       name: 'LED Photo Frame',
       description: 'Illuminated frames that bring your photos to life. Perfect for creating a stunning display in any room.',
-      features: ['LED backlighting', 'Energy efficient', 'Modern design', 'Easy to use']
+      features: ['LED backlighting', 'Energy efficient', 'Modern design', 'Easy to use'],
+      sizes: ['5x7 inches', '8x10 inches'],
+      image: 'https://static.wixstatic.com/media/c3a651_74d71ec0b7094366926ef0d2c9c96b0e~mv2.png'
     }
   ];
+
+  const handleOrderGift = (gift: typeof gifts[0]) => {
+    navigate('/booking', { state: { selectedGift: gift } });
+  };
 
   return (
     <div className="min-h-screen bg-background">
@@ -80,8 +99,8 @@ export default function GiftsPage() {
           <div className="grid grid-cols-1 md:grid-cols-3 gap-12">
             {[
               { step: '01', title: 'Choose Your Gift', description: 'Select from our range of personalized gift options' },
-              { step: '02', title: 'Upload Your Photo', description: 'Share your favorite photo with us via WhatsApp or email' },
-              { step: '03', title: 'Receive Your Gift', description: 'We create and deliver your personalized gift with care' }
+              { step: '02', title: 'Select Details & Size', description: 'Choose your preferred size and customize the details' },
+              { step: '03', title: 'Upload Your Photo', description: 'Share your favorite photo and we\'ll create your gift' }
             ].map((item, index) => (
               <motion.div
                 key={index}
@@ -129,47 +148,72 @@ export default function GiftsPage() {
           <div className="grid grid-cols-1 md:grid-cols-2 gap-12">
             {gifts.map((gift, index) => (
               <motion.div
-                key={index}
+                key={gift.id}
                 initial={{ opacity: 0, y: 30 }}
                 whileInView={{ opacity: 1, y: 0 }}
                 viewport={{ once: true }}
                 transition={{ duration: 0.5, delay: index * 0.1 }}
-                className="bg-white rounded-2xl p-10 shadow-sm hover:shadow-xl transition-all duration-500"
+                className="bg-white rounded-2xl overflow-hidden shadow-sm hover:shadow-xl transition-all duration-500"
               >
-                <div className="flex items-start gap-6 mb-6">
-                  <div className="w-16 h-16 rounded-full bg-accent-gold/10 flex items-center justify-center flex-shrink-0">
-                    <gift.icon className="w-8 h-8 text-accent-gold" />
-                  </div>
-                  <div>
-                    <h3 className="font-heading text-3xl text-foreground mb-3">
-                      {gift.name}
-                    </h3>
-                    <p className="font-paragraph text-base text-foreground/70">
-                      {gift.description}
-                    </p>
-                  </div>
+                <div className="h-64 bg-gradient-to-br from-primary/10 to-accent-gold/10 flex items-center justify-center overflow-hidden">
+                  <Image
+                    src={gift.image}
+                    alt={gift.name}
+                    width={400}
+                    height={256}
+                    className="w-full h-full object-cover"
+                  />
                 </div>
 
-                <div className="space-y-3 mb-8">
-                  {gift.features.map((feature, idx) => (
-                    <div key={idx} className="flex items-center gap-3">
-                      <div className="w-2 h-2 rounded-full bg-accent-gold flex-shrink-0" />
-                      <span className="font-paragraph text-sm text-foreground/70">
-                        {feature}
-                      </span>
+                <div className="p-10">
+                  <div className="flex items-start gap-6 mb-6">
+                    <div className="w-16 h-16 rounded-full bg-accent-gold/10 flex items-center justify-center flex-shrink-0">
+                      <gift.icon className="w-8 h-8 text-accent-gold" />
                     </div>
-                  ))}
-                </div>
+                    <div>
+                      <h3 className="font-heading text-3xl text-foreground mb-3">
+                        {gift.name}
+                      </h3>
+                      <p className="font-paragraph text-base text-foreground/70">
+                        {gift.description}
+                      </p>
+                    </div>
+                  </div>
 
-                <Link to="/contact">
+                  <div className="space-y-3 mb-8">
+                    {gift.features.map((feature, idx) => (
+                      <div key={idx} className="flex items-center gap-3">
+                        <div className="w-2 h-2 rounded-full bg-accent-gold flex-shrink-0" />
+                        <span className="font-paragraph text-sm text-foreground/70">
+                          {feature}
+                        </span>
+                      </div>
+                    ))}
+                  </div>
+
+                  <div className="mb-6 p-4 bg-primary/5 rounded-lg">
+                    <p className="font-paragraph text-sm text-foreground/70 mb-3">
+                      <span className="font-heading text-foreground">Available Sizes:</span>
+                    </p>
+                    <div className="flex flex-wrap gap-2">
+                      {gift.sizes.map((size, idx) => (
+                        <span key={idx} className="px-3 py-1 bg-white border border-primary/20 rounded-full text-xs font-paragraph text-foreground">
+                          {size}
+                        </span>
+                      ))}
+                    </div>
+                  </div>
+
                   <motion.button
                     whileHover={{ scale: 1.05 }}
                     whileTap={{ scale: 0.95 }}
-                    className="w-full px-8 py-4 bg-transparent border border-accent-gold text-accent-gold rounded-lg font-paragraph text-base hover:bg-accent-gold hover:text-primary-foreground transition-all duration-300"
+                    onClick={() => handleOrderGift(gift)}
+                    className="w-full px-8 py-4 bg-accent-gold text-primary-foreground rounded-lg font-paragraph text-base hover:bg-accent-gold/90 transition-all duration-300 flex items-center justify-center gap-2"
                   >
-                    Order Now
+                    Customize & Order
+                    <ArrowRight className="w-5 h-5" />
                   </motion.button>
-                </Link>
+                </div>
               </motion.div>
             ))}
           </div>

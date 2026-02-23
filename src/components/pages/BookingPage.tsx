@@ -1,7 +1,7 @@
 import { useState, useEffect } from 'react';
 import { useLocation } from 'react-router-dom';
 import { motion } from 'framer-motion';
-import { Calendar, MapPin, User, Phone, Mail, Package, MessageSquare, Send } from 'lucide-react';
+import { Calendar, MapPin, User, Phone, Mail, Package, MessageSquare, Send, Upload, X } from 'lucide-react';
 import { BaseCrudService } from '@/integrations';
 import { BookingInquiries, PhotographyServices } from '@/entities';
 import { Input } from '@/components/ui/input';
@@ -10,21 +10,27 @@ import { Label } from '@/components/ui/label';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
 import Header from '@/components/Header';
 import Footer from '@/components/Footer';
+import { Image } from '@/components/ui/image';
 
 export default function BookingPage() {
   const location = useLocation();
   const selectedServiceFromState = location.state?.selectedService;
+  const selectedGiftFromState = location.state?.selectedGift;
+  const isGiftBooking = !!selectedGiftFromState;
 
   const [services, setServices] = useState<PhotographyServices[]>([]);
   const [isSubmitting, setIsSubmitting] = useState(false);
+  const [uploadedPhotos, setUploadedPhotos] = useState<string[]>([]);
   const [formData, setFormData] = useState({
     customerName: '',
     phoneNumber: '',
     email: '',
     eventDate: '',
     location: '',
-    selectedPackage: selectedServiceFromState || '',
-    specialNotes: ''
+    selectedPackage: selectedServiceFromState || (isGiftBooking ? selectedGiftFromState?.name : ''),
+    specialNotes: '',
+    giftSize: selectedGiftFromState?.sizes?.[0] || '',
+    giftDetails: ''
   });
 
   useEffect(() => {
@@ -38,6 +44,25 @@ export default function BookingPage() {
     } catch (error) {
       console.error('Error loading services:', error);
     }
+  };
+
+  const handlePhotoUpload = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const files = e.target.files;
+    if (files) {
+      Array.from(files).forEach(file => {
+        const reader = new FileReader();
+        reader.onload = (event) => {
+          if (event.target?.result) {
+            setUploadedPhotos(prev => [...prev, event.target?.result as string]);
+          }
+        };
+        reader.readAsDataURL(file);
+      });
+    }
+  };
+
+  const removePhoto = (index: number) => {
+    setUploadedPhotos(prev => prev.filter((_, i) => i !== index));
   };
 
   const handleSubmit = async (e: React.FormEvent) => {
@@ -59,7 +84,13 @@ export default function BookingPage() {
       await BaseCrudService.create('bookinginquiries', bookingData);
 
       // Create WhatsApp message
-      const message = `*New Booking Inquiry*%0A%0A*Name:* ${formData.customerName}%0A*Phone:* ${formData.phoneNumber}%0A*Email:* ${formData.email}%0A*Event Date:* ${formData.eventDate}%0A*Location:* ${formData.location}%0A*Package:* ${formData.selectedPackage}%0A*Special Notes:* ${formData.specialNotes || 'None'}`;
+      let message = `*New ${isGiftBooking ? 'Gift' : 'Booking'} Inquiry*%0A%0A*Name:* ${formData.customerName}%0A*Phone:* ${formData.phoneNumber}%0A*Email:* ${formData.email}%0A*Event Date:* ${formData.eventDate}%0A*Location:* ${formData.location}%0A*Package:* ${formData.selectedPackage}`;
+      
+      if (isGiftBooking) {
+        message += `%0A*Gift Size:* ${formData.giftSize}%0A*Gift Details:* ${formData.giftDetails}%0A*Photos Uploaded:* ${uploadedPhotos.length}`;
+      }
+      
+      message += `%0A*Special Notes:* ${formData.specialNotes || 'None'}`;
       
       // Redirect to WhatsApp
       window.location.href = `https://wa.me/919442715605?text=${message}`;
@@ -86,10 +117,12 @@ export default function BookingPage() {
             transition={{ duration: 0.6 }}
           >
             <h1 className="font-heading text-6xl md:text-7xl text-foreground mb-6">
-              Book Your Photography Session
+              {isGiftBooking ? 'Customize Your Gift' : 'Book Your Photography Session'}
             </h1>
             <p className="font-paragraph text-lg md:text-xl text-foreground/70 max-w-3xl mx-auto">
-              Fill out the form below and we'll get back to you shortly to confirm your booking
+              {isGiftBooking 
+                ? 'Select your preferred size, add details, and upload your photos to create your perfect personalized gift'
+                : 'Fill out the form below and we\'ll get back to you shortly to confirm your booking'}
             </p>
           </motion.div>
         </div>
@@ -195,29 +228,135 @@ export default function BookingPage() {
               <div>
                 <Label htmlFor="selectedPackage" className="flex items-center gap-2 font-paragraph text-base text-foreground mb-3">
                   <Package className="w-5 h-5 text-primary" />
-                  Select Package *
+                  {isGiftBooking ? 'Gift Type' : 'Select Package'} *
                 </Label>
-                <Select
-                  value={formData.selectedPackage}
-                  onValueChange={(value) => handleChange('selectedPackage', value)}
-                  required
-                >
-                  <SelectTrigger className="h-14 font-paragraph text-base">
-                    <SelectValue placeholder="Choose a photography package" />
-                  </SelectTrigger>
-                  <SelectContent>
-                    {services.map((service) => (
-                      <SelectItem
-                        key={service._id}
-                        value={service.serviceName || ''}
-                        className="font-paragraph text-base"
-                      >
-                        {service.serviceName}
-                      </SelectItem>
-                    ))}
-                  </SelectContent>
-                </Select>
+                {isGiftBooking ? (
+                  <div className="p-4 bg-primary/5 rounded-lg border border-primary/20">
+                    <p className="font-paragraph text-base text-foreground font-semibold">
+                      {formData.selectedPackage}
+                    </p>
+                  </div>
+                ) : (
+                  <Select
+                    value={formData.selectedPackage}
+                    onValueChange={(value) => handleChange('selectedPackage', value)}
+                    required
+                  >
+                    <SelectTrigger className="h-14 font-paragraph text-base">
+                      <SelectValue placeholder="Choose a photography package" />
+                    </SelectTrigger>
+                    <SelectContent>
+                      {services.map((service) => (
+                        <SelectItem
+                          key={service._id}
+                          value={service.serviceName || ''}
+                          className="font-paragraph text-base"
+                        >
+                          {service.serviceName}
+                        </SelectItem>
+                      ))}
+                    </SelectContent>
+                  </Select>
+                )}
               </div>
+
+              {/* Gift-specific fields */}
+              {isGiftBooking && (
+                <>
+                  {/* Gift Size Selection */}
+                  <div>
+                    <Label htmlFor="giftSize" className="flex items-center gap-2 font-paragraph text-base text-foreground mb-3">
+                      <Package className="w-5 h-5 text-primary" />
+                      Select Size *
+                    </Label>
+                    <Select
+                      value={formData.giftSize}
+                      onValueChange={(value) => handleChange('giftSize', value)}
+                      required
+                    >
+                      <SelectTrigger className="h-14 font-paragraph text-base">
+                        <SelectValue placeholder="Choose a size" />
+                      </SelectTrigger>
+                      <SelectContent>
+                        {selectedGiftFromState?.sizes?.map((size: string) => (
+                          <SelectItem
+                            key={size}
+                            value={size}
+                            className="font-paragraph text-base"
+                          >
+                            {size}
+                          </SelectItem>
+                        ))}
+                      </SelectContent>
+                    </Select>
+                  </div>
+
+                  {/* Gift Details */}
+                  <div>
+                    <Label htmlFor="giftDetails" className="flex items-center gap-2 font-paragraph text-base text-foreground mb-3">
+                      <MessageSquare className="w-5 h-5 text-primary" />
+                      Gift Details & Customization
+                    </Label>
+                    <Textarea
+                      id="giftDetails"
+                      value={formData.giftDetails}
+                      onChange={(e) => handleChange('giftDetails', e.target.value)}
+                      placeholder="Describe any specific details or customizations you'd like (e.g., text to include, color preferences, etc.)"
+                      className="min-h-32 font-paragraph text-base resize-none"
+                    />
+                  </div>
+
+                  {/* Photo Upload */}
+                  <div>
+                    <Label className="flex items-center gap-2 font-paragraph text-base text-foreground mb-3">
+                      <Upload className="w-5 h-5 text-primary" />
+                      Upload Your Photos *
+                    </Label>
+                    <div className="border-2 border-dashed border-primary/30 rounded-lg p-8 text-center hover:border-primary/50 transition-colors">
+                      <input
+                        type="file"
+                        multiple
+                        accept="image/*"
+                        onChange={handlePhotoUpload}
+                        className="hidden"
+                        id="photo-upload"
+                      />
+                      <label htmlFor="photo-upload" className="cursor-pointer">
+                        <Upload className="w-12 h-12 text-primary/40 mx-auto mb-3" />
+                        <p className="font-paragraph text-base text-foreground mb-2">
+                          Click to upload or drag and drop
+                        </p>
+                        <p className="font-paragraph text-sm text-foreground/60">
+                          PNG, JPG, GIF up to 10MB
+                        </p>
+                      </label>
+                    </div>
+
+                    {/* Uploaded Photos Preview */}
+                    {uploadedPhotos.length > 0 && (
+                      <div className="mt-6">
+                        <p className="font-paragraph text-sm text-foreground mb-4">
+                          {uploadedPhotos.length} photo{uploadedPhotos.length !== 1 ? 's' : ''} uploaded
+                        </p>
+                        <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
+                          {uploadedPhotos.map((photo, index) => (
+                            <div key={index} className="relative group">
+                              <Image src={photo} alt={`Uploaded photo ${index + 1}`} className="w-full h-32 object-cover rounded-lg" />
+                              <button
+                                type="button"
+                                onClick={() => removePhoto(index)}
+                                className="absolute top-2 right-2 bg-red-500 text-white rounded-full p-1 opacity-0 group-hover:opacity-100 transition-opacity"
+                              >
+                                <X className="w-4 h-4" />
+                              </button>
+                            </div>
+                          ))}
+                        </div>
+                      </div>
+                    )}
+                  </div>
+                </>
+              )}
 
               {/* Special Notes */}
               <div>
@@ -250,13 +389,13 @@ export default function BookingPage() {
                 ) : (
                   <>
                     <Send className="w-5 h-5" />
-                    Submit Booking Request
+                    Submit {isGiftBooking ? 'Gift Order' : 'Booking'} Request
                   </>
                 )}
               </motion.button>
 
               <p className="text-center font-paragraph text-sm text-foreground/60">
-                After submitting, you'll be redirected to WhatsApp to confirm your booking details
+                After submitting, you'll be redirected to WhatsApp to confirm your details
               </p>
             </form>
           </motion.div>
