@@ -302,9 +302,8 @@ export default function HomePage() {
                         <div className="grid grid-cols-1 md:grid-cols-2 gap-8 items-center">
                           {/* Image Side */}
                           <div className={`relative overflow-hidden rounded-sm aspect-[4/5] md:aspect-[3/4] ${index % 2 === 1 ? 'md:order-2' : ''}`}>
-                            <div className="absolute inset-0 bg-black/20 group-hover:bg-transparent transition-colors duration-500 z-10" />
                             <Image
-                              src={service.representativeImage || 'https://static.wixstatic.com/media/c3a651_96a683feedbc4c26851ae00df66c98fc~mv2.png?originWidth=768&originHeight=1024'}
+                              src={service.representativeImage || 'https://static.wixstatic.com/media/672e5b_c64144ef79ed461da0be78a9d4e70aca~mv2.png?originWidth=768&originHeight=1024'}
                               alt={service.serviceName || 'Service'}
                               className="w-full h-full object-cover transform group-hover:scale-105 transition-transform duration-700 ease-out"
                               width={800}
