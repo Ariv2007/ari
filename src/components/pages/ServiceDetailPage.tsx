@@ -79,7 +79,7 @@ export default function ServiceDetailPage() {
                 {/* Hero Image */}
                 <div className="relative h-[70vh] rounded-2xl overflow-hidden mb-16">
                   <Image
-                    src={service.representativeImage || 'https://static.wixstatic.com/media/c3a651_94e5475842aa4be38379f6d2ffe10b80~mv2.png?originWidth=1152&originHeight=576'}
+                    src={service.representativeImage || 'https://static.wixstatic.com/media/672e5b_615463682fed44cd802c5ffbbbff8e60~mv2.png?originWidth=1152&originHeight=576'}
                     alt={service.serviceName || 'Photography Service'}
                     className="w-full h-full object-cover"
                     width={1200}
