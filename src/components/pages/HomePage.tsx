@@ -303,7 +303,7 @@ export default function HomePage() {
                           {/* Image Side */}
                           <div className={`relative overflow-hidden rounded-sm aspect-[4/5] md:aspect-[3/4] ${index % 2 === 1 ? 'md:order-2' : ''}`}>
                             <Image
-                              src={service.representativeImage || 'https://static.wixstatic.com/media/672e5b_c64144ef79ed461da0be78a9d4e70aca~mv2.png?originWidth=768&originHeight=1024'}
+                              src={service.representativeImage || 'https://static.wixstatic.com/media/672e5b_9921f95001af40edad0e555da7fdf8e3~mv2.png?originWidth=768&originHeight=1024'}
                               alt={service.serviceName || 'Service'}
                               className="w-full h-full object-cover transform group-hover:scale-105 transition-transform duration-700 ease-out"
                               width={800}
